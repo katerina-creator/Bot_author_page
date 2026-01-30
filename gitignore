@@ -1,0 +1,22 @@
+# Secrets & local infra
+.env
+docker-compose.yml
+
+# Node.js
+node_modules/
+dist/
+coverage/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+
+# Editors
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
