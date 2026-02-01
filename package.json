@@ -3,22 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "dist/server.js",
+  "description": "Backend-only MVP for author page bot",
   "scripts": {
-    "dev": "node --loader ts-node/esm src/server.ts",
-    "build": "tsc -p tsconfig.json",
-    "start": "node dist/server.js",
-    "lint:types": "tsc -p tsconfig.json --noEmit"
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "fastify": "^4.28.1",
-    "pg": "^8.12.0"
+    "fastify": "^4.26.2",
+    "pg": "^8.11.5"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "@types/pg": "^8.11.10",
+    "@types/node": "^20.11.30",
+    "@types/pg": "^8.11.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "tsx": "^4.21.0",
+    "typescript": "^5.4.5"
   }
 }
