@@ -1,6 +1,6 @@
 # Secrets & local infra
 .env
-docker-compose.yml
+docker-compose.local.yml
 
 # Node.js
 node_modules/
