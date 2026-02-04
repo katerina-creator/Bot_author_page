@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { pool } from "../../infra/db/pool.js";
-import { DraftSchema } from "../domain/draft/draft.schema.js";
+import { DraftSchema } from "../../domain/draft/draft.schema.js";
 
 /**
  * draftsRoutes — API слой для работы с Draft (KAN-8).

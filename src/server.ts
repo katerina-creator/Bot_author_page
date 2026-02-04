@@ -1,5 +1,5 @@
 import { buildApp } from "./app.ts";
-import { pingDb } from "../../infra/db/pool.js";
+import { pingDb } from "./infra/db/pool.js";
 
 const app = buildApp();
 
@@ -19,4 +19,3 @@ start().catch((err) => {
   }
   process.exit(1);
 });
-
