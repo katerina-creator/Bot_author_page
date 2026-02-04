@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { logger } from "./infra/logger/logger.ts";
 import healthRoute from "./http/routes/health.ts";
 import { draftsRoutes } from "./http/routes/drafts.ts";
+import { previewRoutes } from "./http/routes/preview.ts";
 
 export function buildApp() {
   const app = Fastify({
@@ -18,6 +19,7 @@ export function buildApp() {
   // Routes
   app.register(healthRoute);
   app.register(draftsRoutes);
+  app.register(previewRoutes);
 
   // Global error handler (single JSON format + requestId)
   app.setErrorHandler((error, request, reply) => {
