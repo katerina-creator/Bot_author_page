@@ -1,5 +1,5 @@
 import { buildApp } from "./app.ts";
-import { pingDb } from "./db.ts";
+import { pingDb } from "../../infra/db/pool.js";
 
 const app = buildApp();
 

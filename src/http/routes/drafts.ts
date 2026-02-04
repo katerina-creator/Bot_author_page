@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import { pool } from "../db.js";
+import { pool } from "../../infra/db/pool.js";
 import { DraftSchema } from "../domain/draft/draft.schema.js";
 
 /**
