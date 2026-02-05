@@ -4,8 +4,9 @@ This application renders user-provided content in web previews. To prevent Cross
 
 ## Token Security
 - **Type**: Cryptographically strong random tokens (32 bytes / 64 hex chars).
-- **Rotation**: Tokens are generated on creation and can be rotated by the user via `POST /drafts/me/preview-token`.
-- **Invalidation**: Rotating a token immediately invalidates the old link (returns 404).
+- **Rotation**: Tokens are generated on creation and can be rotated manually via `POST /drafts/me/preview-token`.
+- **Publishing**: Publishing a draft (`POST /drafts/me/publish`) **automatically rotates** the token to invalidate pre-release links.
+- **Invalidation**: Rotating a token (manual or publish) immediately invalidates the old link (returns 404).
 
 ## Abuse Prevention
 - **Rate Limiting**: Enforced on sensitive endpoints including public previews.

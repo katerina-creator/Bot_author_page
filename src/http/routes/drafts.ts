@@ -264,4 +264,37 @@ export async function draftsRoutes(app: FastifyInstance) {
 
     return reply.code(200).send({ preview_token: rows[0].preview_token });
   });
+
+  /**
+   * POST /drafts/me/publish (Action)
+   * Publish the current draft.
+   * - Rotates the preview_token (invalidation).
+   * - Updates updated_at.
+   * - Server does NOT mutate draft.data JSON (KAN-17 rule).
+   */
+  app.post("/drafts/me/publish", async (req, reply) => {
+    let userId: bigint;
+    try {
+      userId = getUserIdFromHeader(req);
+    } catch (e: any) {
+      return sendError(reply, 401, "UNAUTHORIZED", e?.message ?? "Unauthorized");
+    }
+
+    const newToken = generatePreviewToken();
+
+    // Updates preview_token (invalidate old link) and timestamp.
+    const { rows } = await pool.query(
+      `UPDATE drafts
+       SET preview_token = $2, updated_at = now()
+       WHERE user_id = $1 AND is_active = true
+       RETURNING preview_token`,
+      [userId.toString(), newToken]
+    );
+
+    if (rows.length === 0) {
+      return sendError(reply, 404, "DRAFT_NOT_FOUND", "Active draft not found");
+    }
+
+    return reply.code(200).send({ preview_token: rows[0].preview_token });
+  });
 }
