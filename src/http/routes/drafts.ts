@@ -268,9 +268,10 @@ export async function draftsRoutes(app: FastifyInstance) {
   /**
    * POST /drafts/me/publish (Action)
    * Publish the current draft.
+   * - Creates an immutable version snapshot (KAN-9).
    * - Rotates the preview_token (invalidation).
    * - Updates updated_at.
-   * - Server does NOT mutate draft.data JSON (KAN-17 rule).
+   * - Server does NOT mutate draft.data JSON.
    */
   app.post("/drafts/me/publish", async (req, reply) => {
     let userId: bigint;
@@ -280,21 +281,75 @@ export async function draftsRoutes(app: FastifyInstance) {
       return sendError(reply, 401, "UNAUTHORIZED", e?.message ?? "Unauthorized");
     }
 
-    const newToken = generatePreviewToken();
-
-    // Updates preview_token (invalidate old link) and timestamp.
-    const { rows } = await pool.query(
-      `UPDATE drafts
-       SET preview_token = $2, updated_at = now()
-       WHERE user_id = $1 AND is_active = true
-       RETURNING preview_token`,
-      [userId.toString(), newToken]
+    // 1. Get current draft to ensure it exists and preserve content
+    const current = await pool.query(
+      `SELECT id, data FROM drafts WHERE user_id = $1 AND is_active = true LIMIT 1`,
+      [userId.toString()]
     );
 
-    if (rows.length === 0) {
+    if (current.rows.length === 0) {
       return sendError(reply, 404, "DRAFT_NOT_FOUND", "Active draft not found");
     }
 
-    return reply.code(200).send({ preview_token: rows[0].preview_token });
+    const { id: draftId, data: draftData } = current.rows[0];
+    const newToken = generatePreviewToken();
+
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      // 2. Compute next version number
+      // We lock rows or just rely on atomic insert failure if race occurs (rare for single user draft).
+      // COALESCE(MAX(version_number), 0) + 1
+      const versionResult = await client.query(
+        `SELECT COALESCE(MAX(version_number), 0) + 1 as next_ver
+         FROM draft_versions
+         WHERE draft_id = $1`,
+        [draftId]
+      );
+      const nextVersion = versionResult.rows[0].next_ver;
+
+      // 3. Insert snapshot
+      await client.query(
+        `INSERT INTO draft_versions (draft_id, user_id, version_number, data)
+         VALUES ($1, $2, $3, $4::jsonb)`,
+        [draftId, userId.toString(), nextVersion, JSON.stringify(draftData)]
+      );
+
+      // 4. Update draft (Rotate token & timestamp)
+      // Fix: clear parameter order ($1=newToken, $2=draftId)
+      const updateResult = await client.query(
+        `UPDATE drafts
+         SET preview_token = $1, updated_at = now()
+         WHERE id = $2
+         RETURNING preview_token`,
+        [newToken, draftId]
+      );
+
+      await client.query("COMMIT");
+
+      return reply.code(200).send({
+        preview_token: updateResult.rows[0].preview_token,
+        version_number: nextVersion,
+        draft_id: draftId
+      });
+
+    } catch (e: any) {
+      await client.query("ROLLBACK");
+
+      // Handle race condition on UNIQUE(draft_id, version_number)
+      if (e?.code === "23505") {
+        return sendError(
+          reply,
+          409,
+          "PUBLISH_CONFLICT_TRY_AGAIN",
+          "A conflict occurred during publish. Please try again."
+        );
+      }
+
+      throw e;
+    } finally {
+      client.release();
+    }
   });
 }
