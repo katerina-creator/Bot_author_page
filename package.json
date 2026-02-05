@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
+    "escape-html": "^1.0.3",
     "fastify": "^4.26.2",
     "pg": "^8.11.5",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/escape-html": "^1.0.4",
     "@types/node": "^20.11.30",
     "@types/pg": "^8.11.6",
     "ts-node": "^10.9.2",
