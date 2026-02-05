@@ -1,6 +1,17 @@
 # Rendering Security
 
-This application renders user-provided content in web previews. To prevent Cross-Site Scripting (XSS) and other injection attacks, strict output encoding is enforced.
+This application renders user-provided content in web previews. To prevent Cross-Site Scripting (XSS) and other injection attacks, strict output encoding and abuse prevention measures are enforced.
+
+## Token Security
+- **Type**: Cryptographically strong random tokens (32 bytes / 64 hex chars).
+- **Rotation**: Tokens are generated on creation and can be rotated by the user via `POST /drafts/me/preview-token`.
+- **Invalidation**: Rotating a token immediately invalidates the old link (returns 404).
+
+## Abuse Prevention
+- **Rate Limiting**: Enforced on sensitive endpoints including public previews.
+    - Default: 100 requests / 15 minutes.
+    - Configurable via `RATE_LIMIT` env vars.
+- **Error Handling**: Public endpoints return generic HTML 404/500 pages to avoid leaking internal details.
 
 ## Implementation
 

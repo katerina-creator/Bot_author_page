@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { pool } from "../../infra/db/pool.js";
 import { DraftSchema } from "../../domain/draft/draft.schema.js";
+import { generatePreviewToken } from "../../services/security/token.js";
 
 /**
  * draftsRoutes — API слой для работы с Draft (KAN-8).
@@ -175,13 +176,13 @@ export async function draftsRoutes(app: FastifyInstance) {
     //    updated_at выставляется автоматически (DEFAULT/trigger), вручную не трогаем.
     try {
       const { rows } = await pool.query(
-        `INSERT INTO drafts (user_id, is_active, data)
-         VALUES ($1, true, $2::jsonb)
-         RETURNING data`,
-        [userId.toString(), JSON.stringify(validated.draft)]
+        `INSERT INTO drafts (user_id, is_active, data, preview_token)
+         VALUES ($1, true, $2::jsonb, $3)
+         RETURNING data, preview_token`,
+        [userId.toString(), JSON.stringify(validated.draft), generatePreviewToken()]
       );
 
-      return reply.code(201).send(rows[0].data);
+      return reply.code(201).send({ ...rows[0].data, preview_token: rows[0].preview_token });
     } catch (e: any) {
       // Если вдруг сработал unique index (гонка) — тоже 409.
       // pg error code 23505 = unique_violation
@@ -233,5 +234,34 @@ export async function draftsRoutes(app: FastifyInstance) {
     }
 
     return reply.code(200).send(rows[0].data);
+  });
+
+  /**
+   * POST /drafts/me/preview-token (Action)
+   * Re-generate preview token (invalidate old one).
+   */
+  app.post("/drafts/me/preview-token", async (req, reply) => {
+    let userId: bigint;
+    try {
+      userId = getUserIdFromHeader(req);
+    } catch (e: any) {
+      return sendError(reply, 401, "UNAUTHORIZED", e?.message ?? "Unauthorized");
+    }
+
+    const newToken = generatePreviewToken();
+
+    const { rows } = await pool.query(
+      `UPDATE drafts
+       SET preview_token = $2
+       WHERE user_id = $1 AND is_active = true
+       RETURNING preview_token`,
+      [userId.toString(), newToken]
+    );
+
+    if (rows.length === 0) {
+      return sendError(reply, 404, "DRAFT_NOT_FOUND", "Active draft not found");
+    }
+
+    return reply.code(200).send({ preview_token: rows[0].preview_token });
   });
 }
