@@ -1,16 +1,15 @@
 /* Minimal Template Overrides */
-.minimal {
-    /* Ensure clean white background */
+body.minimal {
     background-color: #fff;
     color: #1a1a1a;
 }
 
-.minimal .section-title {
+body.minimal .section-title {
     /* Classic minimal underline */
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--primary-color);
     padding-bottom: 6px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    letter-spacing: normal;
+    text-transform: none;
     font-weight: 600;
 }
 
@@ -29,6 +28,4 @@
         text-decoration: none;
         color: #000;
     }
-
-    /* Show URL in print if needed, or hide if clutter */
 }
