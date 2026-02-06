@@ -169,17 +169,16 @@ a {
 
 const MINIMAL_CSS = `
 /* Minimal Template Overrides */
-.minimal {
-    /* Ensure clean white background */
+body.minimal {
     background-color: #fff;
     color: #1a1a1a;
 }
-.minimal .section-title {
+body.minimal .section-title {
     /* Classic minimal underline */
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--primary-color);
     padding-bottom: 6px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    letter-spacing: normal;
+    text-transform: none;
     font-weight: 600;
 }
 @media print {
@@ -191,7 +190,13 @@ const MINIMAL_CSS = `
 
 export function renderResumeHtml(draftData: any, templateId: string = "minimal"): string {
   const content = draftData?.content || {};
-  const lang = draftData?.lang || "en";
+  let lang = "en";
+  if (draftData?.lang) {
+    const candidate = String(draftData.lang).trim();
+    if (/^[a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})?$/.test(candidate)) {
+      lang = candidate;
+    }
+  }
 
   // Render sections
   const aboutHtml = renderAbout(content.about);
@@ -208,14 +213,16 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
   // Template layout selection
   let bodyContent = "";
   let templateCss = "";
+  let bodyClass = "";
 
   switch (templateId) {
     case "minimal":
     default:
       // Minimal layout (Default)
       templateCss = MINIMAL_CSS;
+      bodyClass = "minimal";
       bodyContent = `
-  <div class="container minimal">
+  <div class="container">
     ${aboutHtml}
     ${contactsHtml}
     ${skillsHtml}
@@ -226,8 +233,10 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
       break;
   }
 
+  const bodyClassAttr = bodyClass ? ` class="${bodyClass}"` : "";
+
   return `<!doctype html>
-<html lang="${escapeHtml(lang)}">
+<html lang="${lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -237,7 +246,7 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
     ${templateCss}
   </style>
 </head>
-<body>
+<body${bodyClassAttr}>
 ${bodyContent}
 </body>
 </html>`;
