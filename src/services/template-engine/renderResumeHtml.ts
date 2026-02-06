@@ -167,6 +167,28 @@ a {
 }
 `;
 
+const MINIMAL_CSS = `
+/* Minimal Template Overrides */
+.minimal {
+    /* Ensure clean white background */
+    background-color: #fff;
+    color: #1a1a1a;
+}
+.minimal .section-title {
+    /* Classic minimal underline */
+    border-bottom: 1px solid #000;
+    padding-bottom: 6px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+@media print {
+    body { font-size: 12px; }
+    .container { width: 100%; max-width: none; padding: 0; }
+    a { text-decoration: none; color: #000; }
+}
+`;
+
 export function renderResumeHtml(draftData: any, templateId: string = "minimal"): string {
   const content = draftData?.content || {};
   const lang = draftData?.lang || "en";
@@ -185,13 +207,15 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
 
   // Template layout selection
   let bodyContent = "";
+  let templateCss = "";
 
   switch (templateId) {
     case "minimal":
     default:
-      // Default minimal layout
+      // Minimal layout (Default)
+      templateCss = MINIMAL_CSS;
       bodyContent = `
-  <div class="container">
+  <div class="container minimal">
     ${aboutHtml}
     ${contactsHtml}
     ${skillsHtml}
@@ -210,6 +234,7 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
   <title>${title}</title>
   <style>
     ${BASE_CSS}
+    ${templateCss}
   </style>
 </head>
 <body>
