@@ -200,3 +200,104 @@ src/
 
 Проект намеренно **не использует** ORM и “тяжёлые” фреймворки на этапе MVP.
 Архитектура строится от простого к сложному, с контролем безопасности и технического долга.
+
+
+---
+
+## Дополнения: Security, Preview и Publish (актуально)
+
+### Public Preview (`/p/:token`)
+- Публичный preview доступен по одноразовому `preview_token`
+- Все пользовательские данные **строго экранируются (XSS-safe rendering)**
+- Включены security headers:
+  - Content-Security-Policy
+  - X-Frame-Options
+  - X-Content-Type-Options
+  - Referrer-Policy
+- На endpoint включён rate limiting (защита от abuse)
+
+### Preview Token
+- Генерируется криптографически стойким способом
+- Создаётся при `POST /drafts/me`
+- Может быть перевыпущен вручную: `POST /drafts/me/preview-token`
+- **Автоматически ротируется при publish**
+- Старые токены становятся невалидны
+
+---
+
+## Publish & Versioning (KAN-9)
+
+### Version snapshots
+При `POST /drafts/me/publish`:
+- создаётся **immutable snapshot** текущего draft
+- snapshot сохраняется в таблицу `draft_versions`
+- `version_number` инкрементируется **per draft**
+- `draft.data` **не мутируется**
+- операция выполняется атомарно (transaction)
+
+### Таблица `draft_versions`
+- `id` UUID
+- `draft_id` UUID
+- `user_id` BIGINT
+- `version_number` INT
+- `data` JSONB (snapshot)
+- `created_at` TIMESTAMPTZ
+
+Ограничения:
+- `UNIQUE (draft_id, version_number)`
+- индексы по `draft_id`, `user_id`
+
+Snapshots являются **insert-only** и не имеют путей обновления или удаления.
+
+---
+
+## Команды запуска (актуально)
+
+### Backend
+```bash
+npm install
+npm run dev
+```
+
+### PostgreSQL (локально)
+```bash
+docker compose -f docker-compose.local.yml up -d
+```
+
+### Проверка
+```bash
+curl http://localhost:3000/health
+```
+
+Ожидаемый ответ:
+```json
+{ "status": "ok" }
+```
+
+---
+
+## Текущий статус MVP (факт)
+
+Готово:
+- Draft CRUD (один активный draft)
+- Строгая JSON-валидация (DraftSchema)
+- XSS-safe preview rendering
+- Public preview `/p/:token`
+- Rate limiting для публичных endpoint
+- Preview token rotation
+- Publish без мутации draft JSON
+- Immutable version snapshots (KAN-9)
+
+---
+
+## Чек-лист перед переходом в новый чат
+
+- README дополнён и закоммичен
+- Миграция `draft_versions` применена
+- `POST /drafts/me/publish` проверен
+- Preview по старому токену не работает
+- Нет незакоммиченных infra-файлов
+- `.env` и `docker-compose.local.yml` не в git
+
+Рекомендуемый следующий шаг:
+**Public preview rendering из version snapshot**
