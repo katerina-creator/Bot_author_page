@@ -7,6 +7,7 @@ import {
   renderEducation
 } from "./sections/index.js";
 import { loadCss } from "./styles/loadCss.js";
+import { renderSidebarLayout } from "./layouts/sidebar.js";
 
 /**
  * Escapes a string for insertion into HTML, replacing characters
@@ -42,6 +43,16 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
   const projectsHtml = renderProjects(content.projects);
   const educationHtml = renderEducation(content.education);
 
+  // Map for layout engines
+  const sections: Record<string, string> = {
+    about: aboutHtml,
+    contacts: contactsHtml,
+    skills: skillsHtml,
+    experience: experienceHtml,
+    projects: projectsHtml,
+    education: educationHtml,
+  };
+
   // Construct title
   const name = content.about?.fullName || content.about?.name || "Resume";
   const title = escapeHtml(name);
@@ -76,6 +87,12 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
       templateCss = loadCss("timeline.css");
       bodyClass = "timeline";
       bodyContent = standardLayout;
+      break;
+
+    case "sidebar":
+      templateCss = loadCss("sidebar.css");
+      bodyClass = "sidebar";
+      bodyContent = renderSidebarLayout(sections);
       break;
 
     case "minimal":
