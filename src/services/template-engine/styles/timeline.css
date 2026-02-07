@@ -1,0 +1,140 @@
+/* Timeline Template Styles */
+
+/* 
+ * Namespace: body.timeline 
+ * This ensures styles only apply when the timeline template is selected.
+ */
+
+body.timeline {
+    background-color: #fff;
+    /* Font inherited from base.css */
+}
+
+/* 
+ * TIMELINE LAYOUT
+ * Applies to Experience and Education sections.
+ * Uses a continuous vertical line on the section container (::before).
+ */
+body.timeline .experience-section,
+body.timeline .education-section {
+    position: relative;
+    /* Make space for the timeline spine on the left */
+    padding-left: 30px;
+    margin-bottom: 32px;
+}
+
+/* The Spine (Vertical Line) */
+body.timeline .experience-section::before,
+body.timeline .education-section::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    /* Start aligned with the top of the first item's title */
+    bottom: 0;
+    /* Extend to the bottom of the section */
+    left: 12px;
+    /* Position line */
+    width: 2px;
+    background-color: #e0e0e0;
+    border-radius: 1px;
+}
+
+/* 
+ * TIMELINE ITEMS
+ * Individual entries (jobs, schools).
+ */
+body.timeline .experience-section .item,
+body.timeline .education-section .item {
+    position: relative;
+    margin-bottom: 28px;
+    /* Make sure content is clearly right of the line */
+    /* padding-left could be added here if we wanted inner spacing, 
+     but outer spacing is handled by section padding */
+}
+
+/* The Dot (Marker) */
+body.timeline .experience-section .item::before,
+body.timeline .education-section .item::before {
+    content: "";
+    position: absolute;
+    /* 
+     Positioning Math:
+     Section Padding Left: 30px (Content starts here)
+     Line Left: 12px. Line Center: 13px.
+     Dot Width: 10px. Dot Center needs to be 13px.
+     Dot Left relative to Section: 13px - 5px = 8px.
+     
+     Item is at 30px relative to Section.
+     Dot Left relative to Item = 8px - 30px = -22px.
+  */
+    left: -22px;
+    top: 6px;
+    /* Align with title text (approx line-height center) */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #3498db;
+    /* Accent color */
+    z-index: 2;
+    /* Sit on top of the line */
+    box-shadow: 0 0 0 3px #fff;
+    /* White halo to mask the line behind the dot */
+}
+
+/* 
+ * TYPOGRAPHY & ITEM STYLING 
+ */
+
+/* Adjust header for stacked look */
+body.timeline .item-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 6px;
+}
+
+/* Title Styling */
+body.timeline .item-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1.4;
+}
+
+/* Subtitle (Company/School) */
+body.timeline .item-subtitle {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* Meta (Dates) */
+body.timeline .item-meta {
+    font-size: 13px;
+    color: #888;
+    margin-top: 2px;
+    font-style: normal;
+}
+
+/* Description */
+body.timeline .item-description {
+    margin-top: 8px;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Section Title Tweak */
+body.timeline .section-title {
+    border-bottom: none;
+    color: #3498db;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Remove margin from last item to keep things tight */
+body.timeline .experience-section .item:last-child,
+body.timeline .education-section .item:last-child {
+    margin-bottom: 0;
+}

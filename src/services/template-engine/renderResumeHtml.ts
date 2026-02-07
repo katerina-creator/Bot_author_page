@@ -72,6 +72,12 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
       bodyContent = standardLayout;
       break;
 
+    case "timeline":
+      templateCss = loadCss("timeline.css");
+      bodyClass = "timeline";
+      bodyContent = standardLayout;
+      break;
+
     case "minimal":
     default:
       // Minimal layout (Default)
