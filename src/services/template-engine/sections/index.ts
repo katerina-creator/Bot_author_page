@@ -4,3 +4,4 @@ export { renderSkills } from "./skills.js";
 export { renderExperience } from "./experience.js";
 export { renderProjects } from "./projects.js";
 export { renderEducation } from "./education.js";
+export { renderLinks } from "./links.js";

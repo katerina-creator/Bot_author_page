@@ -1,4 +1,11 @@
-/* Base CSS for Resume Template Engine */
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Candidate</title>
+  <style>
+    /* Base CSS for Resume Template Engine */
 :root {
   --primary-color: #333;
   --secondary-color: #666;
@@ -163,3 +170,56 @@ a {
   text-decoration: underline;
   overflow-wrap: anywhere;
 }
+    /* Minimal Template Overrides */
+body.minimal {
+    background-color: #fff;
+    color: #1a1a1a;
+}
+
+body.minimal .section-title {
+    /* Classic minimal underline */
+    border-bottom: 1px solid var(--primary-color);
+    padding-bottom: 6px;
+    letter-spacing: normal;
+    text-transform: none;
+    font-weight: 600;
+}
+
+@media print {
+    body {
+        font-size: 12px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+}
+  </style>
+</head>
+<body class="minimal">
+
+  <div class="container">
+    
+    <header class="section about-section">
+      
+      <h1 class="about-name">Minimal Candidate</h1>
+      <p class="about-title muted">Junior Developer</p>
+      <p class="about-summary">Looking for a first role.</p>
+    </header>
+  
+    
+    
+    
+    
+    
+    
+  </div>
+</body>
+</html>

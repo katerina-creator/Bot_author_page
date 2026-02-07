@@ -1,0 +1,77 @@
+{
+  "lang": "en",
+  "content": {
+    "about": {
+      "fullName": "Jane Doe",
+      "title": "Frontend Developer",
+      "location": "Batumi, Georgia",
+      "summary": "Frontend developer focused on UI systems, accessibility, and performance. Loves clean architecture and reusable components.",
+      "photoUrl": "https://via.placeholder.com/300"
+    },
+    "contacts": {
+      "email": "jane.doe@example.com",
+      "phone": "+995 555 123 456",
+      "telegram": "@janedoe",
+      "linkedin": "linkedin.com/in/janedoe"
+    },
+    "links": [
+      {
+        "label": "Portfolio",
+        "url": "https://example.com/portfolio"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/janedoe"
+      },
+      {
+        "label": "Case Study (Very long URL)",
+        "url": "https://example.com/case-studies/2026/02/this-is-a-very-long-url-designed-to-test-overflow-wrapping-in-narrow-sidebars-and-small-screens?utm_source=resume&utm_medium=template_test&utm_campaign=v1_1_sidebar"
+      }
+    ],
+    "skills": [
+      "TypeScript",
+      "React",
+      "CSS",
+      "Node.js",
+      "REST APIs",
+      "Testing",
+      "Accessibility",
+      "Performance"
+    ],
+    "languages": [
+      {
+        "name": "English",
+        "level": "C1"
+      },
+      {
+        "name": "Russian",
+        "level": "Native"
+      }
+    ],
+    "experience": [
+      {
+        "company": "Example Corp",
+        "role": "Frontend Developer",
+        "period": "2023–2026",
+        "description": "Built and maintained a design system, improved Lighthouse score from 62 to 92, and reduced bundle size by 18%."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Web Resume SaaS",
+        "description": "Template engine with section renderers, preview links, and export pipeline.",
+        "links": [
+          "https://example.com/demo",
+          "https://github.com/janedoe/resume-saas"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "State University",
+        "degree": "BSc in Computer Science",
+        "period": "2015–2019"
+      }
+    ]
+  }
+}

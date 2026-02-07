@@ -1,7 +1,7 @@
 
 // Config for section distribution
 const SIDEBAR_LAYOUT = {
-    left: ["contacts", "skills", "languages"],
+    left: ["contacts", "links", "skills", "languages"],
     right: ["about", "experience", "projects", "education"],
 } as const;
 

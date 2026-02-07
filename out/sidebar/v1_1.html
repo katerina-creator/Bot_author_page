@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jane Doe</title>
+  <style>
+    /* Base CSS for Resume Template Engine */
+:root {
+  --primary-color: #333;
+  --secondary-color: #666;
+  --border-color: #eee;
+  --font-base: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-base);
+  line-height: 1.5;
+  color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  font-size: 14px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+/* About Section */
+.about-name {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+}
+
+.about-title {
+  font-size: 18px;
+  margin: 0 0 16px 0;
+  color: var(--secondary-color);
+}
+
+.about-summary {
+  margin: 0;
+}
+
+/* Items */
+.item {
+  margin-bottom: 16px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.item-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0;
+}
+
+.item-subtitle {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.item-meta {
+  font-size: 13px;
+  color: var(--secondary-color);
+  font-style: italic;
+}
+
+.item-description {
+  margin: 4px 0 0;
+  color: var(--primary-color);
+  white-space: pre-wrap;
+}
+
+/* Skills */
+.skills-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background: #f4f4f4;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+/* Contacts */
+.contacts-section {
+  margin-top: -16px;
+  margin-bottom: 32px;
+}
+
+.contacts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 14px;
+  color: var(--secondary-color);
+  margin-top: 8px;
+}
+
+.contact-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Utilities */
+.muted {
+  color: var(--secondary-color);
+}
+
+/* Optional Photo */
+.about-photo {
+  max-width: 150px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* Links Section */
+.links-section .links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.links-section .link-item {
+  margin-bottom: 8px;
+}
+
+.links-section a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+    /* Sidebar Template Styles */
+
+body.sidebar {
+    background-color: #f0f2f5;
+    color: #333;
+    font-family: inherit;
+    /* Inherit from base.css */
+}
+
+body.sidebar .container {
+    padding: 0;
+    max-width: 960px;
+    /* Slightly wider for 2 columns */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    overflow: hidden;
+    /* Clear floats/contain background */
+}
+
+/* Layout Container */
+body.sidebar .sidebar-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+/* Left Column (Sidebar) */
+body.sidebar .left-column {
+    width: 35%;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 40px 30px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+/* Right Column (Main Content) */
+body.sidebar .right-column {
+    width: 65%;
+    padding: 40px 40px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+/* Responsive: Stack on small screens (basic stability) */
+@media (max-width: 768px) {
+    body.sidebar .sidebar-layout {
+        flex-direction: column;
+    }
+
+    body.sidebar .left-column,
+    body.sidebar .right-column {
+        width: 100%;
+        padding: 30px;
+    }
+}
+
+/* 
+ * Specific overrides for Sidebar context 
+ */
+
+/* Dark Sidebar specifics */
+body.sidebar .left-column .section-title {
+    color: #3498db;
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+body.sidebar .left-column .about-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    margin: 0 auto 20px auto;
+    /* Center photo in sidebar */
+    display: block;
+    border-radius: 50%;
+}
+
+/* Links in Sidebar */
+body.sidebar .left-column .links-section {
+    margin-bottom: 32px;
+}
+
+body.sidebar .left-column .links-section a {
+    color: #ecf0f1;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 4px;
+    overflow-wrap: anywhere;
+}
+
+body.sidebar .left-column .links-section a:hover {
+    text-decoration: underline;
+    color: #3498db;
+}
+
+body.sidebar .left-column .item-title,
+body.sidebar .left-column .item-subtitle,
+body.sidebar .left-column .item-description {
+    color: #bdc3c7;
+}
+
+body.sidebar .left-column .contact-item {
+    color: #ecf0f1;
+    display: block;
+    /* Stack contacts in sidebar */
+    margin-bottom: 8px;
+}
+
+body.sidebar .left-column .contact-item a {
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+body.sidebar .left-column .contact-item a:hover {
+    text-decoration: underline;
+}
+
+body.sidebar .left-column .skill-tag {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ecf0f1;
+    border: none;
+}
+
+/* Right column standard overrides */
+body.sidebar .right-column .section-title {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+}
+
+/* Adjustments for name/title in right column if About is there */
+body.sidebar .right-column .about-name {
+    color: #2c3e50;
+}
+
+body.sidebar .right-column .about-title {
+    color: #7f8c8d;
+}
+  </style>
+</head>
+<body class="sidebar">
+
+    <div class="container sidebar-layout">
+        <aside class="left-column">
+            
+    <section class="section contacts-section">
+      <div class="contacts-list">
+        <span class="contact-item"><a href="mailto:jane.doe@example.com">jane.doe@example.com</a></span><span class="muted"> • </span><span class="contact-item"><a href="tel:+995 555 123 456">+995 555 123 456</a></span>
+      </div>
+    </section>
+  
+
+    <section class="section links-section">
+      <h2 class="section-title">Portfolio & Links</h2>
+      <ul class="links-list">
+        
+      <li class="link-item">
+        <a href="https://example.com/portfolio" target="_blank" rel="noopener noreferrer">Portfolio</a>
+      </li>
+    
+      <li class="link-item">
+        <a href="https://github.com/janedoe" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </li>
+    
+      <li class="link-item">
+        <a href="https://example.com/case-studies/2026/02/this-is-a-very-long-url-designed-to-test-overflow-wrapping-in-narrow-sidebars-and-small-screens?utm_source=resume&amp;utm_medium=template_test&amp;utm_campaign=v1_1_sidebar" target="_blank" rel="noopener noreferrer">Case Study (Very long URL)</a>
+      </li>
+    
+      </ul>
+    </section>
+  
+
+    <section class="section skills-section">
+      <h2 class="section-title">Skills</h2>
+      <ul class="skills-list">
+        <li class="skill-tag">TypeScript</li><li class="skill-tag">React</li><li class="skill-tag">CSS</li><li class="skill-tag">Node.js</li><li class="skill-tag">REST APIs</li><li class="skill-tag">Testing</li><li class="skill-tag">Accessibility</li><li class="skill-tag">Performance</li>
+      </ul>
+    </section>
+  
+        </aside>
+        <main class="right-column">
+            
+    <header class="section about-section">
+      <img src="https://via.placeholder.com/300" class="about-photo" alt="Jane Doe" />
+      <h1 class="about-name">Jane Doe</h1>
+      <p class="about-title muted">Frontend Developer</p>
+      <p class="about-summary">Frontend developer focused on UI systems, accessibility, and performance. Loves clean architecture and reusable components.</p>
+    </header>
+  
+
+    <section class="section experience-section">
+      <h2 class="section-title">Experience</h2>
+      
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <h3 class="item-title">Frontend Developer</h3>
+            <div class="item-subtitle">Example Corp</div>
+          </div>
+          <div class="item-meta"></div>
+        </div>
+        <p class="item-description">Built and maintained a design system, improved Lighthouse score from 62 to 92, and reduced bundle size by 18%.</p>
+      </div>
+    
+    </section>
+  
+
+    <section class="section projects-section">
+      <h2 class="section-title">Projects</h2>
+      
+      <div class="item">
+        <div class="item-header">
+          <h3 class="item-title">Web Resume SaaS</h3>
+        </div>
+        <p class="item-description">Template engine with section renderers, preview links, and export pipeline.</p>
+      </div>
+    
+    </section>
+  
+
+    <section class="section education-section">
+      <h2 class="section-title">Education</h2>
+      
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <h3 class="item-title">State University</h3>
+            <div class="item-subtitle">BSc in Computer Science</div>
+          </div>
+          <div class="item-meta"></div>
+        </div>
+        
+      </div>
+    
+    </section>
+  
+        </main>
+    </div>
+    
+</body>
+</html>

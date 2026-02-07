@@ -21,6 +21,7 @@ export function renderAbout(data: any): string {
 
   return `
     <header class="section about-section">
+      ${data.photoUrl ? `<img src="${escapeHtml(data.photoUrl)}" class="about-photo" alt="${escapeHtml(fullName)}" />` : ""}
       <h1 class="about-name">${escapeHtml(fullName)}</h1>
       ${title ? `<p class="about-title muted">${escapeHtml(title)}</p>` : ""}
       ${summary ? `<p class="about-summary">${escapeHtml(summary)}</p>` : ""}

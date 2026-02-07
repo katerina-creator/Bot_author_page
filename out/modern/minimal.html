@@ -1,4 +1,11 @@
-/* Base CSS for Resume Template Engine */
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Candidate</title>
+  <style>
+    /* Base CSS for Resume Template Engine */
 :root {
   --primary-color: #333;
   --secondary-color: #666;
@@ -163,3 +170,83 @@ a {
   text-decoration: underline;
   overflow-wrap: anywhere;
 }
+    /* Modern (Cards) Template */
+body.modern {
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+body.modern,
+body.modern * {
+    box-sizing: border-box;
+}
+
+.modern .section {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    /* Fallback/Subtle definition */
+
+    /* protect layout from long words/urls */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Base override: remove negative margin in card layout */
+.modern .contacts-section {
+    margin-top: 0;
+}
+
+/* Optional: About header tweaks (only if class exists) */
+.modern .section.about-section,
+.modern .about-section.section {
+    text-align: center;
+}
+
+.modern .section-title {
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    color: #2c3e50;
+}
+
+@media print {
+    body.modern {
+        background-color: #fff;
+    }
+
+    .modern .section {
+        box-shadow: none;
+        border: 1px solid #eee;
+
+        /* avoid breaking cards across pages when possible */
+        break-inside: avoid;
+        page-break-inside: avoid;
+        -webkit-column-break-inside: avoid;
+    }
+}
+  </style>
+</head>
+<body class="modern">
+
+  <div class="container">
+    
+    <header class="section about-section">
+      
+      <h1 class="about-name">Minimal Candidate</h1>
+      <p class="about-title muted">Junior Developer</p>
+      <p class="about-summary">Looking for a first role.</p>
+    </header>
+  
+    
+    
+    
+    
+    
+    
+  </div>
+</body>
+</html>

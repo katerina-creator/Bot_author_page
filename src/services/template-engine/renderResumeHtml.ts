@@ -4,7 +4,8 @@ import {
   renderSkills,
   renderExperience,
   renderProjects,
-  renderEducation
+  renderEducation,
+  renderLinks
 } from "./sections/index.js";
 import { loadCss } from "./styles/loadCss.js";
 import { renderSidebarLayout } from "./layouts/sidebar.js";
@@ -38,6 +39,7 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
   // Render sections
   const aboutHtml = renderAbout(content.about);
   const contactsHtml = renderContacts(content.contacts);
+  const linksHtml = renderLinks(content.links);
   const skillsHtml = renderSkills(content.skills);
   const experienceHtml = renderExperience(content.experience);
   const projectsHtml = renderProjects(content.projects);
@@ -47,6 +49,7 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
   const sections: Record<string, string> = {
     about: aboutHtml,
     contacts: contactsHtml,
+    links: linksHtml,
     skills: skillsHtml,
     experience: experienceHtml,
     projects: projectsHtml,
@@ -70,6 +73,7 @@ export function renderResumeHtml(draftData: any, templateId: string = "minimal")
   <div class="container">
     ${aboutHtml}
     ${contactsHtml}
+    ${linksHtml}
     ${skillsHtml}
     ${experienceHtml}
     ${projectsHtml}

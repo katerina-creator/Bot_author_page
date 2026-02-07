@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мария ‘Masha’ O’Connor — QA &amp; Release</title>
+  <style>
+    /* Base CSS for Resume Template Engine */
+:root {
+  --primary-color: #333;
+  --secondary-color: #666;
+  --border-color: #eee;
+  --font-base: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-base);
+  line-height: 1.5;
+  color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  font-size: 14px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+/* About Section */
+.about-name {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+}
+
+.about-title {
+  font-size: 18px;
+  margin: 0 0 16px 0;
+  color: var(--secondary-color);
+}
+
+.about-summary {
+  margin: 0;
+}
+
+/* Items */
+.item {
+  margin-bottom: 16px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.item-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0;
+}
+
+.item-subtitle {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.item-meta {
+  font-size: 13px;
+  color: var(--secondary-color);
+  font-style: italic;
+}
+
+.item-description {
+  margin: 4px 0 0;
+  color: var(--primary-color);
+  white-space: pre-wrap;
+}
+
+/* Skills */
+.skills-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background: #f4f4f4;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+/* Contacts */
+.contacts-section {
+  margin-top: -16px;
+  margin-bottom: 32px;
+}
+
+.contacts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 14px;
+  color: var(--secondary-color);
+  margin-top: 8px;
+}
+
+.contact-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Utilities */
+.muted {
+  color: var(--secondary-color);
+}
+
+/* Optional Photo */
+.about-photo {
+  max-width: 150px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* Links Section */
+.links-section .links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.links-section .link-item {
+  margin-bottom: 8px;
+}
+
+.links-section a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+    /* Timeline Template Styles */
+
+/* 
+ * Namespace: body.timeline 
+ * This ensures styles only apply when the timeline template is selected.
+ */
+
+body.timeline {
+    background-color: #fff;
+    /* Font inherited from base.css */
+}
+
+/* 
+ * TIMELINE LAYOUT
+ * Applies to Experience and Education sections.
+ * Uses a continuous vertical line on the section container (::before).
+ */
+body.timeline .experience-section,
+body.timeline .education-section {
+    position: relative;
+    /* Make space for the timeline spine on the left */
+    padding-left: 30px;
+    margin-bottom: 32px;
+}
+
+/* The Spine (Vertical Line) */
+body.timeline .experience-section::before,
+body.timeline .education-section::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    /* Start aligned with the top of the first item's title */
+    bottom: 0;
+    /* Extend to the bottom of the section */
+    left: 12px;
+    /* Position line */
+    width: 2px;
+    background-color: #e0e0e0;
+    border-radius: 1px;
+}
+
+/* 
+ * TIMELINE ITEMS
+ * Individual entries (jobs, schools).
+ */
+body.timeline .experience-section .item,
+body.timeline .education-section .item {
+    position: relative;
+    margin-bottom: 28px;
+    /* Make sure content is clearly right of the line */
+    /* padding-left could be added here if we wanted inner spacing, 
+     but outer spacing is handled by section padding */
+}
+
+/* The Dot (Marker) */
+body.timeline .experience-section .item::before,
+body.timeline .education-section .item::before {
+    content: "";
+    position: absolute;
+    /* 
+     Positioning Math:
+     Section Padding Left: 30px (Content starts here)
+     Line Left: 12px. Line Center: 13px.
+     Dot Width: 10px. Dot Center needs to be 13px.
+     Dot Left relative to Section: 13px - 5px = 8px.
+     
+     Item is at 30px relative to Section.
+     Dot Left relative to Item = 8px - 30px = -22px.
+  */
+    left: -22px;
+    top: 6px;
+    /* Align with title text (approx line-height center) */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #3498db;
+    /* Accent color */
+    z-index: 2;
+    /* Sit on top of the line */
+    box-shadow: 0 0 0 3px #fff;
+    /* White halo to mask the line behind the dot */
+}
+
+/* 
+ * TYPOGRAPHY & ITEM STYLING 
+ */
+
+/* Adjust header for stacked look */
+body.timeline .item-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 6px;
+}
+
+/* Title Styling */
+body.timeline .item-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1.4;
+}
+
+/* Subtitle (Company/School) */
+body.timeline .item-subtitle {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* Meta (Dates) */
+body.timeline .item-meta {
+    font-size: 13px;
+    color: #888;
+    margin-top: 2px;
+    font-style: normal;
+}
+
+/* Description */
+body.timeline .item-description {
+    margin-top: 8px;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Section Title Tweak */
+body.timeline .section-title {
+    border-bottom: none;
+    color: #3498db;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Remove margin from last item to keep things tight */
+body.timeline .experience-section .item:last-child,
+body.timeline .education-section .item:last-child {
+    margin-bottom: 0;
+}
+  </style>
+</head>
+<body class="timeline">
+
+  <div class="container">
+    
+    <header class="section about-section">
+      
+      <h1 class="about-name">Мария ‘Masha’ O’Connor — QA &amp; Release</h1>
+      <p class="about-title muted">QA / Release Manager</p>
+      <p class="about-summary">Tests special chars: &lt;, &gt;, &amp;, &quot;quotes&quot;, apostrophes, em-dash —, and emoji 🚀✅.</p>
+    </header>
+  
+    
+    
+    
+    <section class="section skills-section">
+      <h2 class="section-title">Skills</h2>
+      <ul class="skills-list">
+        <li class="skill-tag">Test Automation</li><li class="skill-tag">CI/CD</li><li class="skill-tag">Release Management</li><li class="skill-tag">Security &amp; Privacy</li>
+      </ul>
+    </section>
+  
+    
+    <section class="section experience-section">
+      <h2 class="section-title">Experience</h2>
+      
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <h3 class="item-title">Release Manager</h3>
+            <div class="item-subtitle">QA &amp; Co</div>
+          </div>
+          <div class="item-meta">2021 – 2024</div>
+        </div>
+        
+      </div>
+    
+    </section>
+  
+    
+    <section class="section projects-section">
+      <h2 class="section-title">Projects</h2>
+      
+      <div class="item">
+        <div class="item-header">
+          <h3 class="item-title">Escaping &amp; Encoding</h3>
+        </div>
+        <p class="item-description">Ensure HTML escaping does not break markup.</p>
+      </div>
+    
+    </section>
+  
+    
+    <section class="section education-section">
+      <h2 class="section-title">Education</h2>
+      
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <h3 class="item-title">QA Academy</h3>
+            <div class="item-subtitle">Certification</div>
+          </div>
+          <div class="item-meta">2019 – 2020</div>
+        </div>
+        
+      </div>
+    
+    </section>
+  
+  </div>
+</body>
+</html>
